@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Dashboard - Campus Donation Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        /* Custom status classes */
+        .success { background-color: #d1fae5; color: #065f46; border: 1px solid #34d399; }
+        .error { background-color: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+        .pending-status { background-color: #fffbeb; color: #92400e; }
+        .approved-status { background-color: #d1fae5; color: #065f46; }
+        .rejected-status { background-color: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+<header class="flex justify-between items-center pb-6 border-b border-gray-200 mb-8">
+    <div>
+        <h1 class="text-3xl font-extrabold text-indigo-700 tracking-tight">Donor Dashboard</h1>
+        <p id="welcomeMessage" class="text-sm text-gray-500 mt-1">Welcome, Donor - Manage your contributions</p>
+    </div>
+    <button onclick="handleLogout()" class="px-4 py-2 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 transition shadow-md">Logout</button>
+</header>
+
+<!-- Global Message Area -->
+<div id="globalMessageArea" class="mb-4"></div>
+<div id="donationResult" class="mb-4"></div>
+
+<!-- Stats Overview Bar -->
+<div class="mb-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Stat Card 1: Total -->
+    <div class="bg-white p-5 rounded-xl shadow-md border-l-4 border-indigo-500">
+        <p class="text-sm font-medium text-gray-500">Total Donations Listed</p>
+        <p class="text-3xl font-bold text-gray-900 mt-1" id="totalDonations">0</p>
+    </div>
+    <!-- Stat Card 2: Pending -->
+    <div class="bg-white p-5 rounded-xl shadow-md border-l-4 border-yellow-500">
+        <p class="text-sm font-medium text-gray-500">Pending Review</p>
+        <p class="text-3xl font-bold text-gray-900 mt-1" id="pendingDonations">0</p>
+    </div>
+    <!-- Stat Card 3: Approved -->
+    <div class="bg-white p-5 rounded-xl shadow-md border-l-4 border-green-600">
+        <p class="text-sm font-medium text-gray-500">Approved & Ready</p>
+        <p class="text-3xl font-bold text-gray-900 mt-1" id="approvedDonations">0</p>
+    </div>
+</div>
+
+<main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+    <!-- Left Column: Add New Donation (Fixed Span 1) -->
+    <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-2xl h-fit border border-gray-100">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">List New Donation</h2>
+        <form id="donationForm" class="space-y-5">
+            <div>
+                <label for="itemName" class="block text-sm font-medium text-gray-700">Item Name</label>
+                <input type="text" id="itemName" required placeholder="e.g., Notebooks, Winter Coats"
+                       class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+            </div>
+            <div>
+                <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
+                <input type="number" id="quantity" required min="1" placeholder="e.g., 50"
+                       class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+            </div>
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Description (Optional)</label>
+                <textarea id="description" rows="3" placeholder="Condition, pickup instructions, etc."
+                          class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
+            </div>
+            <button type="submit"
+                    class="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition shadow-lg mt-4">
+                Submit Donation Request
+            </button>
+        </form>
+    </div>
+
+    <!-- Right Column: Fixed Stack for Donation History + Active Campaigns (Span 2) -->
+    <div class="lg:col-span-2 flex flex-col gap-6">
+
+        <!-- Fixed Top Section: My Donation History -->
+        <div class="bg-white p-6 rounded-xl shadow-2xl border border-gray-100 flex-1 min-h-[400px]">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">My Donation History</h2>
+
+            <!-- List Header for Desktop -->
+            <div class="hidden md:grid grid-cols-6 text-sm font-medium text-gray-500 uppercase py-3 border-b border-gray-200 tracking-wider">
+                <span class="col-span-2">Item Name</span>
+                <span>Quantity</span>
+                <span>Status</span>
+                <span class="col-span-2">Date Listed</span>
+            </div>
+
+            <div id="donationsContainer" class="divide-y divide-gray-100 max-h-[300px] overflow-y-auto">
+                <!-- Donations loaded via loadMyDonations() script function -->
+                <p class="text-center text-gray-400 p-8 text-lg">Loading donation history...</p>
+            </div>
+        </div>
+
+        <!-- Fixed Bottom Section: Active Campaigns -->
+        <div class="bg-white p-6 rounded-xl shadow-2xl border border-gray-100 min-h-[400px]">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">Active Campaigns</h2>
+            <p class="text-gray-600 mb-4">Browse and support ongoing fundraising campaigns by NGOs.</p>
+            <div id="availableCampaignsList" class="divide-y divide-gray-100 max-h-[400px] overflow-y-auto">
+                <!-- Campaigns loaded via loadAvailableCampaigns() script function -->
+                <p class="text-center text-gray-400 p-8 text-lg">Loading active campaigns...</p>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

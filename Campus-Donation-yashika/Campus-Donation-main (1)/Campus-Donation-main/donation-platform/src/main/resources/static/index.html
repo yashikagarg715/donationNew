@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Donation Platform - Home</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%); /* Slightly darker professional gray gradient */
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: #334155;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #1e3a8a;
+        }
+
+        /* Hero Section with Tagline */
+        .hero {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(51, 65, 85, 0.8) 100%), url('C:\Users\yashi\Downloads\hero-section'); /* Darker navy to slate blue gradient overlay on background image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax effect for larger screens */
+            color: white;
+            text-align: center;
+            padding: 120px 20px 120px; /* Increased bottom padding for more gap */
+            position: relative;
+            margin-top: 0; /* Ensure no gap after navbar */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3); /* Additional subtle dark overlay for better text readability */
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2; /* Ensure content is above overlay */
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        /* Cards Section */
+        .cards-section {
+            padding: 120px 20px 120px; /* Increased top padding for more separation */
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.8); /* Subtle white overlay for contrast */
+            border-radius: 20px;
+            margin-bottom: 40px; /* Extra space below */
+        }
+
+        .cards-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: #1e3a8a;
+            font-weight: 600;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            justify-items: center;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Subtle Tailwind-like shadows */
+            transition: box-shadow 0.3s ease;
+            max-width: 450px;
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .card.donor {
+            border-top: 4px solid #10b981; /* Soft green for donor */
+        }
+
+        .card.ngo {
+            border-top: 4px solid #f59e0b; /* Warm gold for NGO */
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #64748b;
+        }
+
+        .card-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #1e3a8a; /* Navy blue */
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1e40af;
+        }
+
+        .btn-secondary {
+            background: #3b82f6; /* Light blue */
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #2563eb;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); /* Slightly darker light gradient */
+            padding: 100px 20px 120px; /* Increased padding for separation */
+            text-align: center;
+            margin-bottom: 40px; /* Extra space below */
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            color: #1e3a8a;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-item p {
+            font-size: 1.1rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Why Choose Section */
+        .why-choose-section {
+            padding: 100px 20px 120px; /* Increased padding for separation */
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8); /* Subtle white overlay for contrast */
+            border-radius: 20px;
+            margin-bottom: 40px; /* Extra space below */
+        }
+
+        .why-choose-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #1e3a8a;
+            font-weight: 600;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .why-choose-section p.intro {
+            font-size: 1.2rem;
+            margin-bottom: 60px;
+            color: #64748b;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: box-shadow 0.3s ease;
+            border: 1px solid #e2e8f0;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e293b; /* Darker navy for footer */
+            color: white;
+            text-align: center;
+            padding: 60px 20px; /* Slightly more padding */
+            margin-top: 80px;
+        }
+
+        .footer .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        .footer .links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer .links a {
+            color: #bfdbfe;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer .links a:hover {
+            color: white;
+        }
+
+        /* Animations (subtle) */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .navbar .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .cards-section h2,
+            .why-choose-section h2 {
+                font-size: 2rem;
+            }
+
+            .cards-container,
+            .stats-container,
+            .features-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .card,
+            .feature-card {
+                padding: 30px 20px;
+            }
+
+            .card-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .btn {
+                flex: 1;
+                max-width: 140px;
+                padding: 12px 16px;
+            }
+
+            .stats-container {
+                gap: 30px;
+            }
+
+            .stat-item h3 {
+                font-size: 2rem;
+            }
+
+            .footer .links {
+                gap: 1rem;
+            }
+
+            .hero {
+                background-attachment: scroll; /* Disable parallax on mobile for performance */
+                padding: 100px 20px 80px; /* Adjust for mobile with more bottom space */
+            }
+
+            .cards-section,
+            .stats-section,
+            .why-choose-section {
+                padding: 80px 20px 100px; /* Adjust mobile padding */
+                border-radius: 12px; /* Smaller radius on mobile */
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+    <a href="index.html" class="logo">ShareCart</a>
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="how-it-works.html">How It Works</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Empower Your Campus</h1>
+        <p>Donate, Connect, Impact – Join the movement to support your fellow students and campus community through simple, meaningful donations.</p>
+    </div>
+</section>
+
+<!-- Cards Section -->
+<section class="cards-section">
+    <h2>Get Started Today</h2>
+    <div class="cards-container">
+        <!-- Donor Card -->
+        <div class="card donor">
+            <h3>Become a Donor</h3>
+            <p>Share your unused items, books, or resources with those in need on campus. Make a difference with every donation.</p>
+            <div class="card-buttons">
+                <a href="register.html?role=DONOR" class="btn btn-primary">Sign Up as Donor</a>
+                <a href="login.html" class="btn btn-secondary">Login as Donor</a>
+            </div>
+        </div>
+
+        <!-- NGO Card -->
+        <div class="card ngo">
+            <h3>Join as NGO</h3>
+            <p>Represent your student organization or non-profit. Browse available donations and request what your group needs to thrive.</p>
+            <div class="card-buttons">
+                <a href="register.html?role=NGO" class="btn btn-primary">Sign Up as NGO</a>
+                <a href="login.html" class="btn btn-secondary">Login as NGO</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <h2 style="font-size: 2.5rem; color: #1e3a8a; font-weight: 600; margin-bottom: 20px; animation: fadeIn 1s ease-out;">Our Impact</h2>
+    <div class="stats-container">
+        <div class="stat-item">
+            <h3>❤️ ₹2.4M+</h3>
+            <p>Total Donations</p>
+        </div>
+        <div class="stat-item">
+            <h3>👥 5,200+</h3>
+            <p>Active Donors</p>
+        </div>
+        <div class="stat-item">
+            <h3>🏢 180+</h3>
+            <p>NGOs Supported</p>
+        </div>
+        <div class="stat-item">
+            <h3>🌟 25K+</h3>
+            <p>Lives Impacted</p>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Section -->
+<section class="why-choose-section">
+    <h2>Why Choose ShareCart?</h2>
+    <p class="intro">We're committed to making your giving experience transparent, impactful, and meaningful</p>
+    <div class="features-container">
+        <div class="feature-card">
+            <h3>✅ Verified NGOs</h3>
+            <p>All partner organizations are thoroughly vetted and verified</p>
+        </div>
+        <div class="feature-card">
+            <h3>📈 Impact Tracking</h3>
+            <p>See exactly how your donations are making a difference</p>
+        </div>
+        <div class="feature-card">
+            <h3>👥 Community Driven</h3>
+            <p>Connect with fellow students who share your passion for giving</p>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2023 ShareCart. All rights reserved.</p>
+        <p>Empowering campus communities through generous giving.</p>
+        <div class="links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="about.html">About</a>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>
