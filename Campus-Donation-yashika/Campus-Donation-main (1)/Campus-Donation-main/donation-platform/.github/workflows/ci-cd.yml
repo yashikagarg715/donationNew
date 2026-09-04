@@ -1,3 +1,4 @@
+# Campus Donation CI pipeline
 name: Campus Donation CI
 
 on:
